@@ -21,21 +21,11 @@
 
 @implementation SNIViewController
 
-- (void)viewDidLoad
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [super viewDidAppear:animated];
     // 注册拦截请求的NSURLProtocol
     [NSURLProtocol registerClass:[MSDKDnsHttpMessageTools class]];
-    
-    DnsConfig *config = new DnsConfig();
-    config->dnsIp = @"119.29.29.99";
-//    config->dnsId = @"your dnsId";
-//    config->dnsKey = @"your dnsKey";
-//    config->encryptType = HttpDnsEncryptTypeDES;
-    config->debug = YES;
-    config->timeout = 10000;
-    [[MSDKDns sharedInstance] initConfig: config];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +36,7 @@
 - (IBAction)usingConnection:(id)sender {
     _logView.text = nil;
     // 需要设置SNI的URL
-    NSString *originalUrl = @"https://www.qq.com/";
+    NSString *originalUrl = @"https://ip.tool.lu/";
     NSURL* url = [NSURL URLWithString:originalUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
     NSArray* result = [[MSDKDns sharedInstance] WGGetHostByName:url.host];
@@ -74,7 +64,7 @@
 - (IBAction)usingSession:(id)sender {
     _logView.text = nil;
     // 需要设置SNI的URL
-    NSString *originalUrl = @"https://www.qq.com/";;
+    NSString *originalUrl = @"https://ip.tool.lu/";;
     NSURL* url = [NSURL URLWithString:originalUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
     NSArray* result = [[MSDKDns sharedInstance] WGGetHostByName:url.host];
@@ -143,7 +133,7 @@
     NSString* errorString = error.userInfo[@"NSLocalizedDescription"];
     NSLog(@"connectionDidFailWithError:%@", errorString);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_logView insertText:[NSString  stringWithFormat:@"请求失败，错误为：%@\n", errorString]];
+        [_logView insertText:[NSString  stringWithFormat:@"请求失败，错误为：\n%@", errorString]];
     });
 }
 
@@ -168,7 +158,7 @@
     NSString* responeString = [[NSString alloc] initWithData:self.connectionResponseData encoding:NSUTF8StringEncoding];
     NSLog(@"connectionDidFinishLoading: %@",responeString);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_logView insertText:[NSString  stringWithFormat:@"请求成功，请求到的数据为：%@\n", responeString]];
+        [_logView insertText:[NSString  stringWithFormat:@"请求成功，请求到的数据为：\n%@", responeString]];
     });
 }
 
@@ -178,7 +168,7 @@
     NSString* responeString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"didReceiveData: %@", responeString);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_logView insertText:[NSString  stringWithFormat:@"请求成功，请求到的数据为：%@\n", responeString]];
+        [_logView insertText:[NSString  stringWithFormat:@"请求成功，请求到的数据为：\n%@", responeString]];
     });
 }
 
@@ -192,7 +182,7 @@
         NSString* errorString = error.userInfo[@"NSLocalizedDescription"];
         NSLog(@"connectionDidFailWithError:%@", errorString);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_logView insertText:[NSString  stringWithFormat:@"请求失败，错误为：%@\n", errorString]];
+            [_logView insertText:[NSString  stringWithFormat:@"请求失败，错误为：\n%@", errorString]];
         });
     }
     else

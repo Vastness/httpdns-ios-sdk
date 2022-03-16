@@ -18,7 +18,6 @@
 {
     [super viewDidLoad];
     _resultTextView.layoutManager.allowsNonContiguousLayout= NO;
-    [self loadConfig];
 }
 
 - (void)didReceiveMemoryWarning
@@ -26,22 +25,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)loadConfig {
-    DnsConfig *config = new DnsConfig();
-    config->dnsIp = @"119.29.29.98";
-    config->dnsId = 0; // 授权 Id
-    config->dnsKey = @""; // des 加密密钥
-    config->token = @""; //  https Token
-    config->encryptType = HttpDnsEncryptTypeDES;
-    config->debug = YES;
-    config->minutesBeforeSwitchToMain = 1;
-    config->retryTimesBeforeSwitchServer = 2;
-    config->enableReport = YES;
-    config->addressType = HttpDnsAddressTypeIPv4;
-    [[MSDKDns sharedInstance] initConfig: config];
-    // 设置需要进行预解析的域名
-    [[MSDKDns sharedInstance] WGSetPreResolvedDomains:@[@"dnspod.com", @"dnspod.cn"]];
-}
 
 - (IBAction)clearCache:(id)sender {
     [[MSDKDns sharedInstance] clearCache];
@@ -57,9 +40,8 @@
 //    NSDictionary* result = [[MSDKDns sharedInstance] WGGetHostsByNames:domains];
         NSDictionary* result = [[MSDKDns sharedInstance] WGGetAllHostsByNames:domains];
     NSTimeInterval time2 = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"=====本次耗时=====：%fms", (time2 - time1) * 1000);
     if (result && [result count] > 0) {
-        NSString* str = [NSString stringWithFormat:@"\n解析结果为：\n %@\n",result];
+        NSString* str = [NSString stringWithFormat:@"\n解析结果为：\n %@\n 解析耗时：%fms",result, (time2 - time1) * 1000];
         [_resultTextView insertText:str];
         [_resultTextView scrollRangeToVisible:NSMakeRange(_resultTextView.text.length, 1)];
     } else {
@@ -76,9 +58,8 @@
 //    [[MSDKDns sharedInstance] WGGetHostsByNamesAsync:domains returnIps:^(NSDictionary *ipsDict) {
     [[MSDKDns sharedInstance] WGGetAllHostsByNamesAsync:domains returnIps:^(NSDictionary *ipsDict) {
         NSTimeInterval time2 = [[NSDate date] timeIntervalSince1970];
-        NSLog(@"=====本次耗时=====：%fms", (time2 - time1) * 1000);
         if (ipsDict && [ipsDict count] > 0) {
-            NSString* str = [NSString stringWithFormat:@"\n解析结果为：\n %@\n",ipsDict];
+            NSString* str = [NSString stringWithFormat:@"\n解析结果为：\n %@\n 解析耗时：%fms",ipsDict,  (time2 - time1) * 1000];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_resultTextView insertText:str];
                 [_resultTextView scrollRangeToVisible:NSMakeRange(_resultTextView.text.length, 1)];
