@@ -91,7 +91,7 @@
                         <viewControllerLayoutGuide type="top" id="CNe-Zh-PZZ"/>
                         <viewControllerLayoutGuide type="bottom" id="8Bc-QY-hlr"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6A0-D0-Fpd">
+                    <view key="view" contentMode="scaleToFill" id="6A0-D0-Fpd" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -393,6 +393,9 @@
                             <constraint firstItem="ZEc-PI-a29" firstAttribute="leading" secondItem="6A0-D0-Fpd" secondAttribute="leadingMargin" constant="20" id="yEY-NL-NBG"/>
                             <constraint firstItem="zuZ-Ie-v78" firstAttribute="top" secondItem="ZEc-PI-a29" secondAttribute="bottom" constant="15" id="yp1-Ir-jVP"/>
                         </constraints>
+                        <connections>
+                            <action selector="touchView:" destination="kuO-za-Xf8" eventType="touchUpInside" id="kaU-y8-eOu"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="init" image="HTTPDNS_ICON" id="qqZ-4E-RJc"/>
                     <connections>

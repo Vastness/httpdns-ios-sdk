@@ -87,6 +87,10 @@
 {
     [self loadConfig];
 }
+
+-(IBAction)touchView:(id)sender {
+    [self.view endEditing:YES];
+}
 /*
 #pragma mark - Navigation
 
